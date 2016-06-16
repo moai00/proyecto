@@ -5,7 +5,7 @@ package proyecto;
 
 /**
  *
- * @authors Mport y SGamarra
+ * @authors Mport y SGamarra 
  */
 public class Proyecto {
 
@@ -13,6 +13,7 @@ public class Proyecto {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        String hola;
         
     }
     
