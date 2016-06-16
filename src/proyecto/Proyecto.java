@@ -1,11 +1,11 @@
 /*
- * 
+ *programa para dar de alta usuarios y rutas de bici. 
  */
 package proyecto;
 
 /**
  *
- * @author usu21
+ * @authors Mport y SGamarra
  */
 public class Proyecto {
 
