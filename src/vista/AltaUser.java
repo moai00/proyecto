@@ -96,6 +96,11 @@ public class AltaUser extends javax.swing.JDialog {
         });
 
         jButton2.setText("Validar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(20), Integer.valueOf(20), null, Integer.valueOf(1)));
 
@@ -181,7 +186,18 @@ public class AltaUser extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // Validar
+        
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // CANCEL·LAR
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // VALIDAR USER
         if (validarCampos()) {
             ProyectoJDBC proyectoJDBC = new ProyectoJDBC();
            try {
@@ -193,7 +209,7 @@ public class AltaUser extends javax.swing.JDialog {
                        "ERROR", JOptionPane.ERROR_MESSAGE);
            }
        }
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }                                           
 
     private boolean validarCampos() {
          if (jTextField1.getText().length() != 9 || jTextField1.getText().isEmpty()) { // longitud no puede ser mayor de 9 carácteres
@@ -218,12 +234,8 @@ public class AltaUser extends javax.swing.JDialog {
          }
          
          return true;
-    }
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // CANCEL·LAR
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

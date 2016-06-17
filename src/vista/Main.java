@@ -3,6 +3,11 @@
  */
 package vista;
 
+// TODO: 
+// 
+// Llistat Users, Llistat Rutes, Editar User/Ruta, Eliminar Ruta
+// Llista Clasificacio General, Per Ruta
+
 /**
  *
  * @author MPort y SGamarra
