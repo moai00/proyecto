@@ -68,6 +68,7 @@ public class Resultados {
    
 
 
+
     public static final String PROP_USER = "user";
 
     public User getUser() {
