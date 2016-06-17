@@ -8,6 +8,8 @@
  */
 package proyecto;
 
+import vista.Main;
+
 /**
  *
  * @authors Mport y SGamarra 
@@ -18,8 +20,8 @@ public class Proyecto {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        MenuPrincipal mp = new MenuPrincipal();
-//        mp.setVisible(true);
+        Main mp = new Main();
+        mp.setVisible(true);
         
     }
     
