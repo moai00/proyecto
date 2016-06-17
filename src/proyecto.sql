@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `proyecto` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `proyecto`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: proyecto
@@ -28,13 +26,14 @@ CREATE TABLE `resultados` (
   `idresultados` int(11) NOT NULL AUTO_INCREMENT,
   `nif` varchar(9) NOT NULL,
   `idruta` int(4) NOT NULL,
-  `tiempo` varchar(8) NOT NULL,
+  `hores` int(4) NOT NULL,
+  `minuts` int(2) NOT NULL,
   PRIMARY KEY (`idresultados`),
   KEY `nif_idx` (`nif`),
   KEY `idruta_idx` (`idruta`),
-  CONSTRAINT `nif` FOREIGN KEY (`nif`) REFERENCES `user` (`nif`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idruta` FOREIGN KEY (`idruta`) REFERENCES `ruta` (`idruta`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `idruta` FOREIGN KEY (`idruta`) REFERENCES `ruta` (`idruta`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `nif` FOREIGN KEY (`nif`) REFERENCES `user` (`nif`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +42,7 @@ CREATE TABLE `resultados` (
 
 LOCK TABLES `resultados` WRITE;
 /*!40000 ALTER TABLE `resultados` DISABLE KEYS */;
+INSERT INTO `resultados` VALUES (1,'77611300P',1,5,0);
 /*!40000 ALTER TABLE `resultados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,6 +69,7 @@ CREATE TABLE `ruta` (
 
 LOCK TABLES `ruta` WRITE;
 /*!40000 ALTER TABLE `ruta` DISABLE KEYS */;
+INSERT INTO `ruta` VALUES (1,'Canibal',131.00,1900,8);
 /*!40000 ALTER TABLE `ruta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +96,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('77611300P','Miquel','Port Ramon',73,35);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -107,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-16 13:19:43
+-- Dump completed on 2016-06-17 13:27:39
