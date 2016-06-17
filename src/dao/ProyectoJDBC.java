@@ -26,6 +26,8 @@ public class ProyectoJDBC {
 
     private Connection conexion;
     
+    
+    
     public void insertResultat (Resultados res) throws MyException{
         conectar();
         
