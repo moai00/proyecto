@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Resultados;
@@ -27,58 +28,97 @@ public class ProyectoJDBC {
     private Connection conexion;
     
     
+//    public ArrayList<Ruta> selectRuta() throws MyException{
+//        ArrayList<Ruta> ruta = new ArrayList<>();
+//        conectar();
+//        try{
+//            String query
+//        }
+//        
+//        
+//    }
+
     
-    public void insertResultat (Resultados res) throws MyException{
+    //quan donem d'alta un resultat amb aquesta consulta ens apareixen al combobox
+    //els usuaris donats d'alta a la base de dades
+    //amb un override a la clase User decidirem quins camps volem mostrar al combobox
+    public ArrayList<User> selectUser() throws MyException {
+        ArrayList<User> user = new ArrayList<>();
         conectar();
-        
-        try{
+        try {
+            String query = "select * from user;";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                User u = new User();
+                u.setNif(rs.getString("nif"));
+                u.setNom(rs.getString("nom"));
+                u.setCognom(rs.getString("cognoms"));
+                u.setPes(rs.getInt("pes"));
+                u.setEdad(rs.getInt("edad"));
+                user.add(u);
+            }
+
+        } catch (SQLException ex) {
+
+            throw new MyException("Error al consultar " + ex.getLocalizedMessage());
+        } finally {
+            desconectar();
+        }
+        return user;
+    }
+
+    public void insertResultat(Resultados res) throws MyException {
+        conectar();
+
+        try {
             String insert = "insert into resultados values (null, ?, ?,?,?);";
             PreparedStatement ps = conexion.prepareStatement(insert);
             ps.setString(1, res.getUser().getNif());
-            ps.setInt(2,res.getRuta().getIdruta());
+            ps.setInt(2, res.getRuta().getIdruta());
             ps.setInt(3, res.getHoras());
             ps.setInt(4, res.getMinutos());
             ps.setDouble(5, res.getVelmedia());
             ps.executeUpdate();
             ps.close();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             throw new MyException("Error amb la inserció " + ex.getLocalizedMessage());
-        }finally{
+        } finally {
             desconectar();
         }
     }
-    
-    
-    public boolean insertarUsuario (User usuario) throws MyException{
+
+    public boolean insertarUsuario(User usuario) throws MyException {
         conectar();
-        if (conexion != null){
-        try{
-            String insert = "insert into user values (?,?,?,?,?)";
-            PreparedStatement ps = conexion.prepareStatement(insert);
-            ps.setString(1, usuario.getNif());
-            ps.setString (2, usuario.getNom());
-            ps.setString(3, usuario.getCognom());
-            ps.setInt(4, usuario.getPes());
-            ps.setInt(5, usuario.getEdad());
-            ps.executeUpdate();
-            ps.close();
-            return true;
-        }catch (SQLException ex){
-            System.out.println("Error a l'insertar " + ex.getMessage());
-            return false;
-        }finally{
-            desconectar();
-        }
-        }else{
+        if (conexion != null) {
+            try {
+                String insert = "insert into user values (?,?,?,?,?)";
+                PreparedStatement ps = conexion.prepareStatement(insert);
+                ps.setString(1, usuario.getNif());
+                ps.setString(2, usuario.getNom());
+                ps.setString(3, usuario.getCognom());
+                ps.setInt(4, usuario.getPes());
+                ps.setInt(5, usuario.getEdad());
+                ps.executeUpdate();
+                ps.close();
+                return true;
+            } catch (SQLException ex) {
+                System.out.println("Error a l'insertar " + ex.getMessage());
+                return false;
+            } finally {
+                desconectar();
+            }
+        } else {
             return false;
         }
     }
-    
-    public boolean insertarRuta (Ruta r) throws MyException{
+
+    public boolean insertarRuta(Ruta r) throws MyException {
         conectar();
-        if (conexion != null){
-            try{
-                String insert="insert into ruta values(?,?,?,?,?)";
+        if (conexion != null) {
+            try {
+                String insert = "insert into ruta values(?,?,?,?,?)";
                 PreparedStatement ps = conexion.prepareStatement(insert);
                 ps.setInt(1, r.getIdruta());
                 ps.setString(2, r.getNomruta());
@@ -88,72 +128,70 @@ public class ProyectoJDBC {
                 ps.executeUpdate();
                 ps.close();
                 return true;
-            }catch (SQLException ex){
+            } catch (SQLException ex) {
                 System.out.println("Error a l'insertar " + ex.getMessage());
                 return false;
-            }finally{
+            } finally {
                 desconectar();
             }
-        }else{
+        } else {
             return false;
         }
     }
-    
-    public void existeUsuario (User u) throws MyException{
+
+    public void existeUsuario(User u) throws MyException {
         conectar();
-        try{
-            String query = "select * from user where nif='" + u.getNif()+ "';";
+        try {
+            String query = "select * from user where nif='" + u.getNif() + "';";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
-            if (rs.next()){
-                throw new MyException("Ja existeix un usuari amb aquest NIF")  ;         
-                        }
+            if (rs.next()) {
+                throw new MyException("Ja existeix un usuari amb aquest NIF");
+            }
             rs.close();
             st.close();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             throw new MyException("Error a la consulta " + ex.getLocalizedMessage());
-        }finally{
+        } finally {
             desconectar();
         }
     }
-    
-    public void existeRuta (Ruta r) throws MyException{
+
+    public void existeRuta(Ruta r) throws MyException {
         conectar();
-        try{
-            String query ="select *from ruta where idruta='" + r.getIdruta() + "';";
+        try {
+            String query = "select *from ruta where idruta='" + r.getIdruta() + "';";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
-            if(rs.next()){
+            if (rs.next()) {
                 throw new MyException("Ja existeix una ruta amb aquest ID");
             }
             rs.close();
             st.close();
-        }catch(SQLException ex){
-        throw new MyException("Error a la consulta " + ex.getLocalizedMessage());
-    }finally{
+        } catch (SQLException ex) {
+            throw new MyException("Error a la consulta " + ex.getLocalizedMessage());
+        } finally {
             desconectar();
         }
     }
-        
-    
 
-    private void conectar() throws MyException{
-        
-            String url = "jdbc:mysql://localhost:3306/proyecto";
-            String user = "root";
-            String pass = "jeveris";
-            try{
+    private void conectar() throws MyException {
+
+        String url = "jdbc:mysql://localhost:3306/proyecto";
+        String user = "root";
+        String pass = "jeveris";
+        try {
             conexion = DriverManager.getConnection(url, user, pass);
         } catch (SQLException ex) {
             throw new MyException("Error amb la connexió " + ex.getLocalizedMessage());
         }
     }
 
-    private void desconectar() throws MyException{
+    private void desconectar() throws MyException {
         try {
             conexion.close();
         } catch (SQLException ex) {
-           throw new MyException("Error amb la desconnexió " + ex.getLocalizedMessage());  
+            throw new MyException("Error amb la desconnexió " + ex.getLocalizedMessage());
         }
     }
 

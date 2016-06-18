@@ -191,6 +191,8 @@ public class AltaRuta extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, ex.getMessage(),
                     "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "error", "error", JOptionPane.ERROR_MESSAGE);
         }
     }
         
