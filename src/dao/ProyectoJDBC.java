@@ -88,7 +88,7 @@ public class ProyectoJDBC {
         conectar();
 
         try {
-            String insert = "insert into resultados values (null, ?, ?,?,?);";
+            String insert = "insert into resultados values (null, ?, ?,?,?,?);";
             PreparedStatement ps = conexion.prepareStatement(insert);
             ps.setString(1, res.getUser().getNif());
             ps.setInt(2, res.getRuta().getIdruta());
