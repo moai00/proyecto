@@ -23,7 +23,16 @@ public class User {
         nif = "";
         nom = "";
         cognom = "";
+        
     }
+    
+    //to string per decidir quins camps es veuran a la part de crear un nou resultat
+
+    @Override
+    public String toString() {
+        return cognom + ", "+nom;
+    }
+    
     
     
     // Bounds

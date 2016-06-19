@@ -23,6 +23,15 @@ public class Ruta {
         nomruta = "";
     }
     
+    //tostring per mostrar els camps que es veuran a l'hora d'introduir un resultat
+
+    @Override
+    public String toString() {
+        return nomruta + ", Kms: " + distancia + ", Dificultat: " + dificultat;
+    }
+    
+    
+    
     // Bounds
     public static final String PROP_DIFICULTAT = "dificultat";
 

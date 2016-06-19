@@ -27,16 +27,31 @@ public class ProyectoJDBC {
 
     private Connection conexion;
     
-    
-//    public ArrayList<Ruta> selectRuta() throws MyException{
-//        ArrayList<Ruta> ruta = new ArrayList<>();
-//        conectar();
-//        try{
-//            String query
-//        }
-//        
-//        
-//    }
+    //metode per a que apareguin les rutes quan donem d'alta un resultat
+    public ArrayList<Ruta> selectRuta() throws MyException{
+        ArrayList<Ruta> ruta = new ArrayList<>();
+        conectar();
+        try{
+            String query = "select * from ruta;";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                Ruta r = new Ruta();
+                r.setIdruta(rs.getInt("idruta"));
+                r.setNomruta(rs.getString("nomruta"));
+                r.setDistancia(rs.getDouble("distancia"));
+                r.setDesnivell(rs.getInt("desnivell"));
+                r.setDificultat(rs.getInt("dificultat"));
+                ruta.add(r);
+            }
+        }catch (SQLException ex){
+            throw new MyException("Error al consultar " + ex.getLocalizedMessage());
+        }finally{
+            desconectar();
+        }
+        return ruta;
+        
+    }
 
     
     //quan donem d'alta un resultat amb aquesta consulta ens apareixen al combobox
