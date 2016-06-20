@@ -27,10 +27,44 @@ public class ProyectoJDBC {
 
     private Connection conexion;
     
-    //actualizar datos d eusuario:
+   
+    //actualizar datos de ruta
+    public void updateRuta (Ruta ruta) throws MyException{
+        conectar();
+        try { 
+            String update = "update ruta set nomruta = ?, distancia=?, desnivell =?, dificultat=? where idruta =?;";
+            PreparedStatement ps = conexion.prepareStatement(update);
+            ps.setString(1, ruta.getNomruta());
+            ps.setDouble(2, ruta.getDistancia());
+            ps.setInt(3, ruta.getDesnivell());
+            ps.setInt(4, ruta.getDificultat());
+            ps.setInt(5, ruta.getIdruta());
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException ex){
+            throw new MyException("Error al actualizar datos " + ex.getLocalizedMessage());
+        }finally{
+            desconectar();
+        }
+    }
     
+    // actualizar datos de usuario
     public void updateUser (User user) throws MyException{
-        
+        conectar();
+        try{
+            String update = "update user set pes =?, edad=? where nif =?;";
+            PreparedStatement ps = conexion.prepareStatement(update);
+            ps.setInt(1, user.getPes());
+            ps.setInt(2, user.getEdad());
+            ps.setString(3, user.getNif());
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException ex){
+            throw new MyException("Error al actualizar datos " + ex.getLocalizedMessage());
+        }finally{
+            desconectar();
+        }
+       
     }
     
     //metode per a que apareguin les rutes quan donem d'alta un resultat

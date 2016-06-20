@@ -231,7 +231,7 @@ public class AltaUser extends javax.swing.JDialog {
     }                                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+         
     }                                        
 
     // Variables declaration - do not modify                     
