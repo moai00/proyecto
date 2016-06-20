@@ -96,7 +96,7 @@ public class AltaRuta extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${ruta.distancia}"), jSpinner1, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
 
-        jLabel1.setText("ID Ruta:");
+        jLabel1.setText("ID Ruta [4 digits]:");
 
         jLabel2.setText("Nom de la ruta:");
 
@@ -138,11 +138,11 @@ public class AltaRuta extends javax.swing.JDialog {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
-                        .addGap(36, 36, 36)
+                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner3)
-                            .addComponent(jSpinner2)
-                            .addComponent(jSpinner1)))
+                            .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSpinner1)
+                            .addComponent(jSpinner3)))
                     .addComponent(jLabel6))
                 .addContainerGap())
         );

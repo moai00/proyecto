@@ -64,7 +64,7 @@ public class AltaUser extends javax.swing.JDialog {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${user.pes}"), jSpinner2, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
 
-        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${user.edad}"), jSpinner3, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);
@@ -88,7 +88,7 @@ public class AltaUser extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("NIF:");
+        jLabel1.setText("NIF [9 digits]:");
 
         jLabel2.setText("Nom:");
 
@@ -126,25 +126,25 @@ public class AltaUser extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
-                        .addGap(59, 59, 59)
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField2)
                             .addComponent(jTextField1)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
-                        .addGap(36, 36, 36)
+                        .addGap(48, 48, 48)
                         .addComponent(jTextField3))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(58, 58, 58)
-                        .addComponent(jSpinner3))
+                        .addComponent(jLabel4)
+                        .addGap(75, 75, 75)
+                        .addComponent(jSpinner2))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(63, 63, 63)
-                        .addComponent(jSpinner2)))
+                        .addComponent(jLabel5)
+                        .addGap(70, 70, 70)
+                        .addComponent(jSpinner3)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

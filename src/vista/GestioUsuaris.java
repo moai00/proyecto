@@ -8,7 +8,6 @@ package vista;
 import dao.ProyectoJDBC;
 import exceptions.MyException;
 import javax.swing.JOptionPane;
-import modelo.ListaUsers;
 import modelo.User;
 
 /**
@@ -18,7 +17,6 @@ import modelo.User;
 public class GestioUsuaris extends javax.swing.JDialog {
 
         private ProyectoJDBC proyectoJDBC;
-        private ListaUsers users;
         private User userSeleccionat;
 
     public User getUserSeleccionat() {
@@ -27,14 +25,6 @@ public class GestioUsuaris extends javax.swing.JDialog {
 
     public void setUserSeleccionat(User userSeleccionat) {
         this.userSeleccionat = userSeleccionat;
-    }
-
-    public ListaUsers getUsers() {
-        return users;
-    }
-
-    public void setUsers(ListaUsers users) {
-        this.users = users;
     }
 
     public ProyectoJDBC getProyectoJDBC() {
@@ -135,37 +125,46 @@ public class GestioUsuaris extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // EDITAR USUARI
-//        if (jTable1.getSelectedRow() < 0) {
-//            JOptionPane.showMessageDialog(this, "Tens que seleccionar un usuari");
-//        } else {
-//            ModificarUser modificarUser = new modificarUser(null, true);
-//            modificarUser.setVisible(true);
-//    }  
+        if (jTable1.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Tens que seleccionar un usuari");
+        } else {
+            int respuesta = JOptionPane.showConfirmDialog(this, "Estás segur?", "CONFIRMA",
+                    JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                try {
+                    // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
+                    proyectoJDBC.updateUser(userSeleccionat);
+                    // llamamos a la funcion bajaprenda de ListaPrendas
+                    JOptionPane.showMessageDialog(this, "Usuari modificat amb exit");
+                    dispose();
+                } catch (MyException ex) {
+                    JOptionPane.showMessageDialog(this, "No s'ha pogut modificar l'usuari",
+                            "ERROR: Usuari no modificat", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // ESBORRAR USUARI
-//        if (jTable1.getSelectedRow() < 0) {
-//            JOptionPane.showMessageDialog(this, "Tens que seleccionar un usuari");
-//        } else {
-//            int respuesta = JOptionPane.showConfirmDialog(this, "Estás segur?", "CONFIRMA",
-//                    JOptionPane.YES_NO_OPTION);
-//            if (respuesta == JOptionPane.YES_OPTION) {
-//                try {
-//                    // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
-//                    proyectoJDBC.
-//                    proyectoJDBC.borrarUser(userSeleccionat);
-//                    
-//                    // llamamos a la funcion bajaprenda de ListaPrendas
-//                    users.bajaUser(userSeleccionat);
-//                    JOptionPane.showMessageDialog(this, "Prenda borrada con exito");
-//                    dispose();
-//                } catch (MyException ex) {
-//                    JOptionPane.showMessageDialog(this, "No s'ha pogut esborrar l'usuari",
-//                            "ERROR: Usuari no esborrat", JOptionPane.ERROR_MESSAGE);
-//                }
-//            }
-//        }
+        if (jTable1.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Tens que seleccionar un usuari");
+        } else {
+            int respuesta = JOptionPane.showConfirmDialog(this, "Estás segur?", "CONFIRMA",
+                    JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                try {
+                    // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
+                    proyectoJDBC.borrarUser(userSeleccionat);
+                    // llamamos a la funcion bajaprenda de ListaPrendas
+                    JOptionPane.showMessageDialog(this, "Prenda borrada con exito");
+                    dispose();
+                } catch (MyException ex) {
+                    JOptionPane.showMessageDialog(this, "No s'ha pogut esborrar l'usuari",
+                            "ERROR: Usuari no esborrat", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
