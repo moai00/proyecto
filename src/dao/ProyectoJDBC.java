@@ -27,6 +27,12 @@ public class ProyectoJDBC {
 
     private Connection conexion;
     
+    //actualizar datos d eusuario:
+    
+    public void updateUser (User user) throws MyException{
+        
+    }
+    
     //metode per a que apareguin les rutes quan donem d'alta un resultat
     public ArrayList<Ruta> selectRuta() throws MyException{
         ArrayList<Ruta> ruta = new ArrayList<>();
