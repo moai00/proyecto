@@ -3,17 +3,57 @@
  */
 package vista;
 
+import dao.ProyectoJDBC;
+import exceptions.MyException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import modelo.Resultados;
+import modelo.Ruta;
+import modelo.User;
+
 /**
  *
  * @author MPort y SGamarra
  */
 public class InsertarResultados extends javax.swing.JDialog {
 
+    private Resultados resultados;
+    private ArrayList<User> users;
+    private ArrayList<Ruta> ruta;
+    private ProyectoJDBC proyectoJDBC;
+
+    public ArrayList<Ruta> getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(ArrayList<Ruta> ruta) {
+        this.ruta = ruta;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
     /**
      * Creates new form InsertarResultados
      */
     public InsertarResultados(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        resultados = new Resultados();
+        proyectoJDBC = new ProyectoJDBC();
+
+        try {
+            users = proyectoJDBC.selectUser();
+            ruta = proyectoJDBC.selectRuta();
+        } catch (MyException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            dispose();
+        }
+
         initComponents();
     }
 
@@ -25,6 +65,7 @@ public class InsertarResultados extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jComboBox1 = new javax.swing.JComboBox();
         jTextField1 = new javax.swing.JTextField();
@@ -40,6 +81,10 @@ public class InsertarResultados extends javax.swing.JDialog {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${ruta}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
+        bindingGroup.addBinding(jComboBoxBinding);
+
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -47,6 +92,10 @@ public class InsertarResultados extends javax.swing.JDialog {
         });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${users}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox2);
+        bindingGroup.addBinding(jComboBoxBinding);
 
         jLabel1.setText("Hores");
 
@@ -118,6 +167,8 @@ public class InsertarResultados extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -132,10 +183,10 @@ public class InsertarResultados extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // ACEPTAR
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -145,5 +196,6 @@ public class InsertarResultados extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
