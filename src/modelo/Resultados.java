@@ -57,18 +57,6 @@ public class Resultados {
         propertyChangeSupport.firePropertyChange(PROP_HORAS, oldHoras, horas);
     }
     
-    
-
-    // Constructor
-    
-    
-    // Bounds
-    
-
-   
-
-
-
     public static final String PROP_USER = "user";
 
     public User getUser() {
