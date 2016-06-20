@@ -26,12 +26,11 @@ import modelo.User;
 public class ProyectoJDBC {
 
     private Connection conexion;
-    
-   
+
     //actualizar datos de ruta
-    public void updateRuta (Ruta ruta) throws MyException{
+    public void updateRuta(Ruta ruta) throws MyException {
         conectar();
-        try { 
+        try {
             String update = "update ruta set nomruta = ?, distancia=?, desnivell =?, dificultat=? where idruta =?;";
             PreparedStatement ps = conexion.prepareStatement(update);
             ps.setString(1, ruta.getNomruta());
@@ -41,17 +40,17 @@ public class ProyectoJDBC {
             ps.setInt(5, ruta.getIdruta());
             ps.executeUpdate();
             ps.close();
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new MyException("Error al actualizar datos " + ex.getLocalizedMessage());
-        }finally{
+        } finally {
             desconectar();
         }
     }
-    
+
     // actualizar datos de usuario
-    public void updateUser (User user) throws MyException{
+    public void updateUser(User user) throws MyException {
         conectar();
-        try{
+        try {
             String update = "update user set pes =?, edad=? where nif =?;";
             PreparedStatement ps = conexion.prepareStatement(update);
             ps.setInt(1, user.getPes());
@@ -59,23 +58,94 @@ public class ProyectoJDBC {
             ps.setString(3, user.getNif());
             ps.executeUpdate();
             ps.close();
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new MyException("Error al actualizar datos " + ex.getLocalizedMessage());
-        }finally{
+        } finally {
             desconectar();
         }
-       
+
+    }
+
+    //borrar usuario
+    public boolean borrarUser(User user) throws MyException {
+        conectar();
+        if (conexion != null) {
+            try {
+                String delete = "delete from user where nif =?;";
+                PreparedStatement ps = conexion.prepareStatement(delete);
+                ps.setString(1, user.getNif());
+                ps.executeUpdate();
+                ps.close();
+                return true;
+            } catch (SQLException ex) {
+                throw new MyException("Error a l'eliminar l'usuari");
+            } finally {
+                desconectar();
+            }
+        } else {
+            return false;
+        }
     }
     
+    //borrar ruta
+    public boolean borrarRuta(Ruta ruta) throws MyException{
+        conectar();
+        if (conexion != null){
+            try{
+                String delete = "delete from ruta where idruta=?;";
+                PreparedStatement ps = conexion.prepareStatement(delete);
+                ps.setInt(1, ruta.getIdruta());
+                ps.executeUpdate();
+                ps.close();
+                return true;
+            }catch(SQLException ex){
+                throw new MyException("Error a l'eliminar la ruta");
+            }finally{
+                desconectar();
+            }
+        }else{
+            return false;
+        }
+    }
+
+//llistar resultats
+    public ArrayList<Resultados> llistarResultats() throws MyException {
+        ArrayList<Resultados> resultats = new ArrayList<>();
+        conectar();
+        try {
+            String query = "select * from resultados;";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                Resultados r = new Resultados();
+                r.setIdresultados(rs.getInt("idresultados"));
+                //falta preguntar com pasar el nif
+                // i la id ruta
+                ;
+
+                r.setHoras(rs.getInt("hores"));
+                r.setMinutos(rs.getInt("minuts"));
+                r.setVelmedia(rs.getDouble("velmedia"));
+                resultats.add(r);
+            }
+        } catch (SQLException ex) {
+            throw new MyException("Error al consultar " + ex.getLocalizedMessage());
+        } finally {
+            desconectar();
+        }
+
+        return resultats;
+    }
+
     //metode per a que apareguin les rutes quan donem d'alta un resultat
-    public ArrayList<Ruta> selectRuta() throws MyException{
+    public ArrayList<Ruta> selectRuta() throws MyException {
         ArrayList<Ruta> ruta = new ArrayList<>();
         conectar();
-        try{
+        try {
             String query = "select * from ruta;";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
+            while (rs.next()) {
                 Ruta r = new Ruta();
                 r.setIdruta(rs.getInt("idruta"));
                 r.setNomruta(rs.getString("nomruta"));
@@ -84,16 +154,15 @@ public class ProyectoJDBC {
                 r.setDificultat(rs.getInt("dificultat"));
                 ruta.add(r);
             }
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new MyException("Error al consultar " + ex.getLocalizedMessage());
-        }finally{
+        } finally {
             desconectar();
         }
         return ruta;
-        
+
     }
 
-    
     //quan donem d'alta un resultat amb aquesta consulta ens apareixen al combobox
     //els usuaris donats d'alta a la base de dades
     //amb un override a la clase User decidirem quins camps volem mostrar al combobox
