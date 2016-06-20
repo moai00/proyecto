@@ -201,8 +201,10 @@ public class ProyectoJDBC {
         conectar();
 
         try {
-            String insert = "insert into resultados values (null, ?, ?,?,?,?);";
+            String insert = "insert into resultados values ( null , ?, ?, ?, ?, ?);";
             PreparedStatement ps = conexion.prepareStatement(insert);
+            
+            
             ps.setString(1, res.getUser().getNif());
             ps.setInt(2, res.getRuta().getIdruta());
             ps.setInt(3, res.getHoras());
@@ -211,10 +213,14 @@ public class ProyectoJDBC {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage());
             throw new MyException("Error amb la inserció " + ex.getLocalizedMessage());
+           
         } finally {
+            
             desconectar();
         }
+         
     }
 
     public void insertarUsuario(User usuario) throws MyException {
@@ -305,7 +311,7 @@ public class ProyectoJDBC {
 
         String url = "jdbc:mysql://localhost:3306/proyecto";
         String user = "root";
-        String pass = "jeveris";
+        String pass = "111111";
         try {
             conexion = DriverManager.getConnection(url, user, pass);
         } catch (SQLException ex) {

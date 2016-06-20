@@ -100,8 +100,6 @@ public class ModificarRuta extends javax.swing.JDialog {
             }
         });
 
-        jTextField2.setEditable(false);
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${rutasPasadas.nomruta}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
@@ -114,7 +112,7 @@ public class ModificarRuta extends javax.swing.JDialog {
 
         jLabel1.setText("ID Ruta [4 digits]:");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(1.0d), Double.valueOf(1.0d), null, Double.valueOf(1.0d)));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1.0d, 1.0d, null, 1.0d));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${rutasPasadas.distancia}"), jSpinner1, org.jdesktop.beansbinding.BeanProperty.create("value"));
         bindingGroup.addBinding(binding);

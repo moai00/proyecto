@@ -11,28 +11,27 @@ import java.beans.PropertyChangeSupport;
  * @author MPort y SGamarra
  */
 public class Resultados {
+
     // Declaramos las variables de la clase Resultados
     private int idresultados;
-    private Ruta ruta;    
+    private Ruta ruta;
     private User user;
     private int horas;
     private int minutos;
     private double velmedia;
-    
-    
-    //en lugar de ser un property, como no lo guardaremos, solo haremos el calculo cuando lo necesitemos
-    //para hacer el listado de los resultados. Será un funcion a la que llamaremos cuando
-    //necesitemos mostrar la velocidad media en un listado
-    
-   
+
+    public Resultados() {
+        ruta = new Ruta();
+        user = new User();
+    }
 
     public static final String PROP_VELMEDIA = "velmedia";
 
     public double getVelmedia() {
-        double minutoshora= 0;
+        double minutoshora = 0;
         double velmedia = 0;
-        minutoshora=(((double)horas * 60) + (double)minutos) / 60;
-        velmedia = ruta.getDistancia()/minutoshora;
+        minutoshora = (((double) horas * 60) + (double) minutos) / 60;
+        velmedia = ruta.getDistancia() / minutoshora;
         return velmedia;
     }
 
@@ -42,11 +41,6 @@ public class Resultados {
         propertyChangeSupport.firePropertyChange(PROP_VELMEDIA, oldVelmedia, velmedia);
     }
 
-    
-
-
-    
- 
     public static final String PROP_MINUTOS = "minutos";
 
     public int getMinutos() {
@@ -59,7 +53,6 @@ public class Resultados {
         propertyChangeSupport.firePropertyChange(PROP_MINUTOS, oldMinutos, minutos);
     }
 
-
     public static final String PROP_HORAS = "horas";
 
     public int getHoras() {
@@ -71,7 +64,7 @@ public class Resultados {
         this.horas = horas;
         propertyChangeSupport.firePropertyChange(PROP_HORAS, oldHoras, horas);
     }
-    
+
     public static final String PROP_USER = "user";
 
     public User getUser() {
@@ -83,7 +76,6 @@ public class Resultados {
         this.user = user;
         propertyChangeSupport.firePropertyChange(PROP_USER, oldUser, user);
     }
-
 
     public static final String PROP_RUTA = "ruta";
 
@@ -97,8 +89,6 @@ public class Resultados {
         propertyChangeSupport.firePropertyChange(PROP_RUTA, oldRuta, ruta);
     }
 
-    
-    
     public static final String PROP_IDRESULTADOS = "idresultados";
 
     public int getIdresultados() {
