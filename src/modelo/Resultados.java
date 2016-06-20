@@ -35,6 +35,11 @@ public class Resultados {
         return velmedia;
     }
 
+    @Override
+    public String toString() {
+        return horas + ":" + minutos;
+    }
+
     public void setVelmedia(double velmedia) {
         double oldVelmedia = this.velmedia;
         this.velmedia = velmedia;
