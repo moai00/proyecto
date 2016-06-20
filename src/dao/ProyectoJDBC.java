@@ -86,25 +86,24 @@ public class ProyectoJDBC {
             return false;
         }
     }
-    
 
     //borrar ruta
-    public boolean borrarRuta(Ruta ruta) throws MyException{
+    public boolean borrarRuta(Ruta ruta) throws MyException {
         conectar();
-        if (conexion != null){
-            try{
+        if (conexion != null) {
+            try {
                 String delete = "delete from ruta where idruta=?;";
                 PreparedStatement ps = conexion.prepareStatement(delete);
                 ps.setInt(1, ruta.getIdruta());
                 ps.executeUpdate();
                 ps.close();
                 return true;
-            }catch(SQLException ex){
+            } catch (SQLException ex) {
                 throw new MyException("Error a l'eliminar la ruta");
-            }finally{
+            } finally {
                 desconectar();
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -114,16 +113,20 @@ public class ProyectoJDBC {
         ArrayList<Resultados> resultats = new ArrayList<>();
         conectar();
         try {
-            String query = "select * from resultados;";
+            String query = "SELECT * FROM resultados join user join ruta on resultados.nif=user.nif and resultados.idruta=ruta.idruta;";
+
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Resultados r = new Resultados();
                 r.setIdresultados(rs.getInt("idresultados"));
-                //falta preguntar com pasar el nif
-                // i la id ruta
-                ;
-
+                r.getUser().setNif(rs.getString("nif"));
+                r.getUser().setNom(rs.getString("nom"));
+                r.getUser().setCognom(rs.getString("cognoms"));
+                r.getRuta().setNomruta(rs.getString("nomruta"));
+                r.getRuta().setDistancia(rs.getDouble("distancia"));
+                r.getRuta().setDesnivell(rs.getInt("desnivell"));
+                r.getRuta().setDificultat(rs.getInt("dificultat"));
                 r.setHoras(rs.getInt("hores"));
                 r.setMinutos(rs.getInt("minuts"));
                 r.setVelmedia(rs.getDouble("velmedia"));
@@ -137,7 +140,6 @@ public class ProyectoJDBC {
 
         return resultats;
     }
-
 
     //metode per a que apareguin les rutes quan donem d'alta un resultat
     public ArrayList<Ruta> selectRuta() throws MyException {
@@ -215,9 +217,10 @@ public class ProyectoJDBC {
         }
     }
 
-    public boolean insertarUsuario(User usuario) throws MyException {
+    public void insertarUsuario(User usuario) throws MyException {
+        existeUsuario(usuario);
         conectar();
-        if (conexion != null) {
+        
             try {
                 String insert = "insert into user values (?,?,?,?,?)";
                 PreparedStatement ps = conexion.prepareStatement(insert);
@@ -228,21 +231,20 @@ public class ProyectoJDBC {
                 ps.setInt(5, usuario.getEdad());
                 ps.executeUpdate();
                 ps.close();
-                return true;
+                
             } catch (SQLException ex) {
-                System.out.println("Error a l'insertar " + ex.getMessage());
-                return false;
+                throw new MyException("Error a l'insertar " + ex.getMessage());
+                
             } finally {
                 desconectar();
             }
-        } else {
-            return false;
-        }
+        
     }
 
-    public boolean insertarRuta(Ruta r) throws MyException {
+    public void insertarRuta(Ruta r) throws MyException {
+        existeRuta(r);
         conectar();
-        if (conexion != null) {
+        
             try {
                 String insert = "insert into ruta values(?,?,?,?,?)";
                 PreparedStatement ps = conexion.prepareStatement(insert);
@@ -253,16 +255,14 @@ public class ProyectoJDBC {
                 ps.setInt(5, r.getDificultat());
                 ps.executeUpdate();
                 ps.close();
-                return true;
+                
             } catch (SQLException ex) {
-                System.out.println("Error a l'insertar " + ex.getMessage());
-                return false;
+                throw new MyException("Error a l'insertar " + ex.getMessage());
+                
             } finally {
                 desconectar();
             }
-        } else {
-            return false;
-        }
+        
     }
 
     public void existeUsuario(User u) throws MyException {
