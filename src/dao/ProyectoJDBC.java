@@ -87,6 +87,7 @@ public class ProyectoJDBC {
         }
     }
     
+
     //borrar ruta
     public boolean borrarRuta(Ruta ruta) throws MyException{
         conectar();
@@ -136,6 +137,7 @@ public class ProyectoJDBC {
 
         return resultats;
     }
+
 
     //metode per a que apareguin les rutes quan donem d'alta un resultat
     public ArrayList<Ruta> selectRuta() throws MyException {
