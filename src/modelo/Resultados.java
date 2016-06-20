@@ -17,13 +17,17 @@ public class Resultados {
     private User user;
     private int horas;
     private int minutos;
+    private double velmedia;
     
-
-
+    
     //en lugar de ser un property, como no lo guardaremos, solo haremos el calculo cuando lo necesitemos
     //para hacer el listado de los resultados. Será un funcion a la que llamaremos cuando
     //necesitemos mostrar la velocidad media en un listado
     
+   
+
+    public static final String PROP_VELMEDIA = "velmedia";
+
     public double getVelmedia() {
         double minutoshora= 0;
         double velmedia = 0;
@@ -31,6 +35,17 @@ public class Resultados {
         velmedia = ruta.getDistancia()/minutoshora;
         return velmedia;
     }
+
+    public void setVelmedia(double velmedia) {
+        double oldVelmedia = this.velmedia;
+        this.velmedia = velmedia;
+        propertyChangeSupport.firePropertyChange(PROP_VELMEDIA, oldVelmedia, velmedia);
+    }
+
+    
+
+
+    
  
     public static final String PROP_MINUTOS = "minutos";
 
