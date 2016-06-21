@@ -225,14 +225,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        try {
+        
             // LLISTA D'USUARIS
-            ListadoUsers listadoUsers = new ListadoUsers();
+            ListadoUsers listadoUsers = new ListadoUsers(this, true);
             listadoUsers.setLocationRelativeTo(null);
             listadoUsers.setVisible(true);
-        } catch (MyException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
+        
         
                         
     }//GEN-LAST:event_jButton3ActionPerformed

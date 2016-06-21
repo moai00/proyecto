@@ -6,8 +6,11 @@ package vista;
 import dao.ProyectoJDBC;
 import exceptions.MyException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import modelo.ListaUser;
 import modelo.User;
 
 /**
@@ -17,7 +20,7 @@ import modelo.User;
 public class ListadoUsers extends javax.swing.JDialog {
     
         private ProyectoJDBC proyectoJDBC;
-        private ArrayList<User> todos;
+        private ListaUser lista;
         private User userSeleccionado;
 
     public User getUserSeleccionado() {
@@ -29,12 +32,12 @@ public class ListadoUsers extends javax.swing.JDialog {
     }
 
 
-    public ArrayList<User> getTodos() {
-        return todos;
+    public ListaUser getTodos() {
+        return lista;
     }
 
-    public void setTodos(ArrayList<User> todos) {
-        this.todos = todos;
+    public void setTodos(ListaUser lista) {
+        this.lista = lista;
     }
 
 
@@ -50,11 +53,19 @@ public class ListadoUsers extends javax.swing.JDialog {
     /**
      * Creates new form ListadoUsers
      */
-    public ListadoUsers() throws MyException {
-        proyectoJDBC = new ProyectoJDBC();
-        todos = proyectoJDBC.selectUser();
-        userSeleccionado = new User();
-        initComponents();
+    public ListadoUsers(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+            
+                proyectoJDBC = new ProyectoJDBC();
+                
+                userSeleccionado = new User();
+                lista = new ListaUser();
+            try{
+                lista = proyectoJDBC.selectUser();
+            } catch (MyException ex) {
+                 JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            initComponents();
     }
 
 
@@ -78,22 +89,22 @@ public class ListadoUsers extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Llistat d'Usuaris");
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${todos}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${todos.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nif}"));
-        columnBinding.setColumnName("NIF");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cognom}"));
+        columnBinding.setColumnName("Cognom");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${edad}"));
+        columnBinding.setColumnName("Edad");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nif}"));
+        columnBinding.setColumnName("Nif");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nom}"));
         columnBinding.setColumnName("Nom");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cognom}"));
-        columnBinding.setColumnName("Cognoms");
-        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pes}"));
         columnBinding.setColumnName("Pes");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${edad}"));
-        columnBinding.setColumnName("Edad");
         columnBinding.setColumnClass(Integer.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${userSeleccionado}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
@@ -194,6 +205,7 @@ public class ListadoUsers extends javax.swing.JDialog {
                 int respuesta = JOptionPane.showConfirmDialog(this, "Segur que vols borrar l'usuari", "Confirmació", JOptionPane.YES_NO_OPTION);
                 if(respuesta == JOptionPane.YES_OPTION){
                 proyectoJDBC.borrarUser(userSeleccionado);
+                lista.bajaUser(userSeleccionado);
                 JOptionPane.showMessageDialog(this, "usuari borrat");
                 
                 }

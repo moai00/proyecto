@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.ListaResultados;
 import modelo.ListaRuta;
+import modelo.ListaUser;
 import modelo.Resultados;
 import modelo.Ruta;
 import modelo.User;
@@ -195,11 +196,11 @@ public class ProyectoJDBC {
     //quan donem d'alta un resultat amb aquesta consulta ens apareixen al combobox
     //els usuaris donats d'alta a la base de dades
     //amb un override a la clase User decidirem quins camps volem mostrar al combobox
-    public ArrayList<User> selectUser() throws MyException {
-        ArrayList<User> user = new ArrayList<>();
+    public ListaUser selectUser() throws MyException {
+        ListaUser user = new ListaUser();
         conectar();
         try {
-            String query = "select * from user;";
+            String query = "select * from user order by cognoms;";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
 
@@ -210,7 +211,7 @@ public class ProyectoJDBC {
                 u.setCognom(rs.getString("cognoms"));
                 u.setPes(rs.getInt("pes"));
                 u.setEdad(rs.getInt("edad"));
-                user.add(u);
+                user.altaUser(u);
             }
 
         } catch (SQLException ex) {
