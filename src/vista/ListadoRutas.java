@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.ListaRuta;
 import modelo.Ruta;
 
 /**
@@ -16,10 +17,10 @@ import modelo.Ruta;
  * @author MPort y SGamarra
  */
 public class ListadoRutas extends javax.swing.JDialog {
-    
-        private ProyectoJDBC proyectoJDBC;
-        private ArrayList<Ruta> todos;
-        private Ruta rutaSeleccionada;
+
+    private ProyectoJDBC proyectoJDBC;
+    private ListaRuta lista;
+    private Ruta rutaSeleccionada;
 
     public Ruta getRutaSeleccionada() {
         return rutaSeleccionada;
@@ -29,13 +30,12 @@ public class ListadoRutas extends javax.swing.JDialog {
         this.rutaSeleccionada = rutaSeleccionada;
     }
 
-
-    public ArrayList<Ruta> getTodos() {
-        return todos;
+    public ListaRuta getLista() {
+        return lista;
     }
 
-    public void setTodos(ArrayList<Ruta> todos) {
-        this.todos = todos;
+    public void setLista(ListaRuta lista) {
+        this.lista = lista;
     }
 
     public ProyectoJDBC getProyectoJDBC() {
@@ -46,14 +46,22 @@ public class ListadoRutas extends javax.swing.JDialog {
         this.proyectoJDBC = proyectoJDBC;
     }
 
-    
     /**
      * Creates new form ListadoRutas
      */
-    public ListadoRutas() throws MyException {
+    public ListadoRutas(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+
         proyectoJDBC = new ProyectoJDBC();
-        todos = proyectoJDBC.selectRuta();
+
         rutaSeleccionada = new Ruta();
+        lista = new ListaRuta();
+        try {
+            lista = proyectoJDBC.selectRuta();
+
+        } catch (MyException ex) {
+           JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         initComponents();
     }
 
@@ -76,23 +84,23 @@ public class ListadoRutas extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${todos}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${lista.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idruta}"));
-        columnBinding.setColumnName("ID Ruta");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomruta}"));
-        columnBinding.setColumnName("Nom Ruta");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${distancia}"));
-        columnBinding.setColumnName("Distancia");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${desnivell}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${desnivell}"));
         columnBinding.setColumnName("Desnivell");
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dificultat}"));
         columnBinding.setColumnName("Dificultat");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${distancia}"));
+        columnBinding.setColumnName("Distancia");
+        columnBinding.setColumnClass(Double.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idruta}"));
+        columnBinding.setColumnName("Idruta");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomruta}"));
+        columnBinding.setColumnName("Nomruta");
+        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${rutaSeleccionada}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
         bindingGroup.addBinding(binding);
@@ -174,26 +182,27 @@ public class ListadoRutas extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // MODIFICA RUTA
-         if (jTable1.getSelectedRowCount() == 0){
-            JOptionPane.showMessageDialog(this, "Has de seleccionar una Ruta", 
+        if (jTable1.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Has de seleccionar una Ruta",
                     "Ruta no seleccionada", JOptionPane.ERROR_MESSAGE);
-          } else {  
-        ModificarRuta modificarRuta = new ModificarRuta(null, true, rutaSeleccionada);
-        modificarRuta.setLocationRelativeTo(null);
-        modificarRuta.setVisible(true);
+        } else {
+            ModificarRuta modificarRuta = new ModificarRuta(null, true, rutaSeleccionada);
+            modificarRuta.setLocationRelativeTo(null);
+            modificarRuta.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       // ELIMINA RUTA
-        if (jTable1.getSelectedRowCount() == 0){
+        // ELIMINA RUTA
+        if (jTable1.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Selecciona una ruta", "Ruta no seleccionada", JOptionPane.ERROR_MESSAGE);
-        }else{
-            try {   
+        } else {
+            try {
                 int respuesta = JOptionPane.showConfirmDialog(this, "Segur que vols borrar la ruta i els seus resultats", "Confirmació", JOptionPane.YES_NO_OPTION);
-                if (respuesta == JOptionPane.YES_OPTION){
-                proyectoJDBC.borrarRuta(rutaSeleccionada);
-                JOptionPane.showMessageDialog(this, "Ruta borrada");
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    proyectoJDBC.borrarRuta(rutaSeleccionada);
+                    lista.bajaRuta(rutaSeleccionada);
+                    JOptionPane.showMessageDialog(this, "Ruta borrada");
                 }
             } catch (MyException ex) {
                 JOptionPane.showMessageDialog(this, "No s'ha pogut borrar la ruta", "ERROR: Ruta no borrada", JOptionPane.ERROR_MESSAGE);
@@ -201,7 +210,6 @@ public class ListadoRutas extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.ListaResultados;
 import modelo.Resultados;
 
 /**
@@ -18,7 +19,7 @@ import modelo.Resultados;
 public class ListadoResultados extends javax.swing.JDialog {
 
     private ProyectoJDBC proyectoJDBC;
-    private ArrayList<Resultados> listaresultados;
+    private ListaResultados listaresultados;
     private Resultados resultadoseleccionado;
 
     public Resultados getResultadoseleccionado() {
@@ -29,11 +30,11 @@ public class ListadoResultados extends javax.swing.JDialog {
         this.resultadoseleccionado = resultadoseleccionado;
     }
 
-    public ArrayList<Resultados> getListaresultados() {
+    public ListaResultados getListaresultados() {
         return listaresultados;
     }
 
-    public void setListaresultados(ArrayList<Resultados> listaresultados) {
+    public void setListaresultados(ListaResultados listaresultados) {
         this.listaresultados = listaresultados;
     }
 
@@ -53,6 +54,7 @@ public class ListadoResultados extends javax.swing.JDialog {
 
         proyectoJDBC = new ProyectoJDBC();
         resultadoseleccionado = new Resultados();
+        listaresultados = new ListaResultados();
         try {
             listaresultados = proyectoJDBC.llistarResultats();
         } catch (MyException ex) {
@@ -79,22 +81,14 @@ public class ListadoResultados extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaresultados}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaresultados.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idresultados}"));
-        columnBinding.setColumnName("ID");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${user.nif}"));
-        columnBinding.setColumnName("NIF");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${user.nom}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${user.nom}"));
         columnBinding.setColumnName("NOM");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${user.cognom}"));
-        columnBinding.setColumnName("COGNOM");
+        columnBinding.setColumnName("COGNOMS");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ruta.nomruta}"));
@@ -104,10 +98,6 @@ public class ListadoResultados extends javax.swing.JDialog {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ruta.distancia}"));
         columnBinding.setColumnName("DISTANCIA");
         columnBinding.setColumnClass(Double.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ruta.desnivell}"));
-        columnBinding.setColumnName("DESNIVELL POSITIU");
-        columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ruta.dificultat}"));
         columnBinding.setColumnName("DIFICULTAT");
@@ -122,7 +112,7 @@ public class ListadoResultados extends javax.swing.JDialog {
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${velmedia}"));
-        columnBinding.setColumnName("MITJANA (KM/h)");
+        columnBinding.setColumnName("MITJANA (Km/h)");
         columnBinding.setColumnClass(Double.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
@@ -191,6 +181,7 @@ public class ListadoResultados extends javax.swing.JDialog {
                 int respuesta = JOptionPane.showConfirmDialog(this, "Segur que vols borrar el resultat", "Confirmació", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.YES_OPTION) {
                     proyectoJDBC.borrarResultado(resultadoseleccionado);
+                    listaresultados.bajaResultados(resultadoseleccionado);
                     JOptionPane.showMessageDialog(this, "Resultat borrat");
                 }
             } catch (MyException ex) {

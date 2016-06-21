@@ -15,9 +15,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.ListaResultados;
+import modelo.ListaRuta;
 import modelo.Resultados;
 import modelo.Ruta;
 import modelo.User;
+import org.jdesktop.observablecollections.ObservableList;
 
 /**
  *
@@ -131,8 +134,8 @@ public class ProyectoJDBC {
     }
 
 //llistar resultats
-    public ArrayList<Resultados> llistarResultats() throws MyException {
-        ArrayList<Resultados> resultats = new ArrayList<>();
+    public ListaResultados llistarResultats() throws MyException {
+        ListaResultados resultats = new ListaResultados();
         conectar();
         try {
             String query = "SELECT * FROM resultados join user join ruta on resultados.nif=user.nif and resultados.idruta=ruta.idruta;";
@@ -152,7 +155,7 @@ public class ProyectoJDBC {
                 r.setHoras(rs.getInt("hores"));
                 r.setMinutos(rs.getInt("minuts"));
                 r.setVelmedia(rs.getDouble("velmedia"));
-                resultats.add(r);
+                resultats.altaResultados(r);
             }
         } catch (SQLException ex) {
             throw new MyException("Error al consultar " + ex.getLocalizedMessage());
@@ -164,8 +167,8 @@ public class ProyectoJDBC {
     }
 
     //metode per a que apareguin les rutes quan donem d'alta un resultat
-    public ArrayList<Ruta> selectRuta() throws MyException {
-        ArrayList<Ruta> ruta = new ArrayList<>();
+    public ListaRuta selectRuta() throws MyException {
+        ListaRuta ruta = new ListaRuta();
         conectar();
         try {
             String query = "select * from ruta;";
@@ -178,7 +181,7 @@ public class ProyectoJDBC {
                 r.setDistancia(rs.getDouble("distancia"));
                 r.setDesnivell(rs.getInt("desnivell"));
                 r.setDificultat(rs.getInt("dificultat"));
-                ruta.add(r);
+                ruta.altaRuta(r);
             }
         } catch (SQLException ex) {
             throw new MyException("Error al consultar " + ex.getLocalizedMessage());
