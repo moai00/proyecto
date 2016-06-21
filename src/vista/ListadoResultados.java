@@ -17,7 +17,17 @@ import modelo.Resultados;
  */
 public class ListadoResultados extends javax.swing.JDialog {
 
+    private ProyectoJDBC proyectoJDBC;
     private ArrayList<Resultados> listaresultados;
+    private Resultados resultadoseleccionado;
+
+    public Resultados getResultadoseleccionado() {
+        return resultadoseleccionado;
+    }
+
+    public void setResultadoseleccionado(Resultados resultadoseleccionado) {
+        this.resultadoseleccionado = resultadoseleccionado;
+    }
 
     public ArrayList<Resultados> getListaresultados() {
         return listaresultados;
@@ -27,18 +37,29 @@ public class ListadoResultados extends javax.swing.JDialog {
         this.listaresultados = listaresultados;
     }
 
+    public ProyectoJDBC getProyectoJDBC() {
+        return proyectoJDBC;
+    }
+
+    public void setProyectoJDBC(ProyectoJDBC proyectoJDBC) {
+        this.proyectoJDBC = proyectoJDBC;
+    }
+
     /**
      * Creates new form ListadoResultados
      */
     public ListadoResultados(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        ProyectoJDBC proyectoJDBC = new ProyectoJDBC();
+
+        proyectoJDBC = new ProyectoJDBC();
+        resultadoseleccionado = new Resultados();
         try {
             listaresultados = proyectoJDBC.llistarResultats();
         } catch (MyException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         initComponents();
+
     }
 
     /**
@@ -53,12 +74,18 @@ public class ListadoResultados extends javax.swing.JDialog {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaresultados}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${user.nif}"));
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idresultados}"));
+        columnBinding.setColumnName("ID");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${user.nif}"));
         columnBinding.setColumnName("NIF");
         columnBinding.setColumnClass(String.class);
         columnBinding.setEditable(false);
@@ -99,8 +126,24 @@ public class ListadoResultados extends javax.swing.JDialog {
         columnBinding.setColumnClass(Double.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${resultadoseleccionado}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
         jScrollPane1.setViewportView(jTable1);
+
+        jButton1.setText("Sortir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Borrar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,11 +151,21 @@ public class ListadoResultados extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1135, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1029, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(36, 36, 36))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
@@ -124,11 +177,36 @@ public class ListadoResultados extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Eliminar Resultado
+
+        if (jTable1.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Selecciona un resultat", "Resultat no seleccionat", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                int respuesta = JOptionPane.showConfirmDialog(this, "Segur que vols borrar el resultat", "Confirmació", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    proyectoJDBC.borrarResultado(resultadoseleccionado);
+                    JOptionPane.showMessageDialog(this, "Resultat borrat");
+                }
+            } catch (MyException ex) {
+                JOptionPane.showMessageDialog(this, "No s'ha pogut borrar el resultat", "ERROR: Resultat no borrada", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

@@ -29,10 +29,10 @@ public class Resultados {
 
     public double getVelmedia() {
         double minutoshora = 0;
-        double velmedia = 0;
+        double media = 0;
         minutoshora = (((double) horas * 60) + (double) minutos) / 60;
-        velmedia = ruta.getDistancia() / minutoshora;
-        return velmedia;
+        media = ruta.getDistancia() / minutoshora;
+        return media;
     }
 
     @Override

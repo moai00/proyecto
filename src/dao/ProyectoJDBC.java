@@ -65,6 +65,28 @@ public class ProyectoJDBC {
         }
 
     }
+    
+    //borrar resultado
+    public boolean borrarResultado (Resultados result) throws MyException{
+        conectar();
+        if (conexion != null){
+            try{
+                String delete = "delete from resultados where idresultados =?;";
+                System.out.println(result.getIdresultados());
+                PreparedStatement ps = conexion.prepareStatement(delete);
+                ps.setInt(1, result.getIdresultados());
+                ps.executeUpdate();
+                ps.close();
+                return true;
+            }catch(SQLException ex){
+                throw new MyException("Error a l'eliminar el resultat");
+            }finally{
+                desconectar();
+            }
+        }else{
+            return false;
+        }
+    }
 
     //borrar usuario
     public boolean borrarUser(User user) throws MyException {

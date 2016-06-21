@@ -5,6 +5,7 @@ package modelo;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import org.jdesktop.observablecollections.ObservableList;
 
 /**
  *
@@ -17,6 +18,8 @@ public class Ruta {
     private double distancia;
     private int desnivell;
     private int dificultat;
+    
+    
     
     // Constructor de la clase
     public Ruta() {
