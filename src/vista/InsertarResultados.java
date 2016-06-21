@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.ListaRuta;
 import modelo.Resultados;
 import modelo.Ruta;
 import modelo.User;
@@ -21,14 +22,14 @@ public class InsertarResultados extends javax.swing.JDialog {
     
     private Resultados result;
     private ArrayList<User> users;
-    private ArrayList<Ruta> ruta;
+    private ListaRuta ruta;
     private ProyectoJDBC proyectoJDBC;
     
-    public ArrayList<Ruta> getRuta() {
+    public ListaRuta getRuta() {
         return ruta;
     }
     
-    public void setRuta(ArrayList<Ruta> ruta) {
+    public void setRuta(ListaRuta ruta) {
         this.ruta = ruta;
     }
     
@@ -55,6 +56,7 @@ public class InsertarResultados extends javax.swing.JDialog {
         super(parent, modal);
         result = new Resultados();
          proyectoJDBC = new ProyectoJDBC();
+         ruta = new ListaRuta();
         try {
             users = proyectoJDBC.selectUser();
             ruta = proyectoJDBC.selectRuta();
@@ -65,12 +67,12 @@ public class InsertarResultados extends javax.swing.JDialog {
         
         initComponents();
         
-        if (!users.isEmpty()) {
-            result.setUser(users.get(0));
-        }
-        if (!ruta.isEmpty()) {
-            result.setRuta(ruta.get(0));
-        }
+//    if (!users.isEmpty()) {
+//        result.setUser(users.get(0));
+//    }
+//    if (!ruta.()) {
+//        result.setRuta(ruta.get(0));
+//    }
         
     }
 
