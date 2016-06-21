@@ -134,6 +134,16 @@ public class ProyectoJDBC {
         }
     }
 
+    //llistar RANKING
+    
+    //consulta per agafar d'una ruta determinada el millor temps de cada usuari que ha fet la ruta:
+    
+    /*
+        SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta = 1241   
+        group by user.nif having max(velmedia) order by velmedia desc;
+    */
+    
+    
 //llistar resultats
     public ListaResultados llistarResultats() throws MyException {
         ListaResultados resultats = new ListaResultados();
@@ -172,7 +182,7 @@ public class ProyectoJDBC {
         ListaRuta ruta = new ListaRuta();
         conectar();
         try {
-            String query = "select * from ruta;";
+            String query = "select * from ruta group by nomruta;";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
