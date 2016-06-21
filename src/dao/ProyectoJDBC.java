@@ -135,15 +135,16 @@ public class ProyectoJDBC {
     }
 
     //llistar RANKING
-    public ArrayList<Resultados> ranking(Ruta laRuta) throws MyException {
-        ArrayList<Resultados> r = new ArrayList<>();
-        Resultados res = new Resultados();
+    public ListaResultados ranking(Ruta laRuta) throws MyException {
+        ListaResultados result = new ListaResultados();
+        
         conectar();
         try {
-            String query = "SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta ='" + res.getRuta().getIdruta()+ "' group by user.nif having max(velmedia) order by velmedia desc;";
+            String query = "SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta ='" + laRuta.getIdruta() +"' group by user.nif having max(velmedia) order by velmedia desc;";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
+                Resultados res = new Resultados();
                 res.setIdresultados(rs.getInt("idresultados"));
                 res.getUser().setNif(rs.getString("nif"));
                 res.getUser().setNom(rs.getString("nom"));
@@ -155,16 +156,17 @@ public class ProyectoJDBC {
                 res.setHoras(rs.getInt("hores"));
                 res.setMinutos(rs.getInt("minuts"));
                 res.setVelmedia(rs.getDouble("velmedia"));
-                r.add(res);
+                result.altaResultados(res);
 
             }
+            
         } catch (SQLException ex) {
             throw new MyException("ERROR" + ex.getLocalizedMessage());
         } finally {
             desconectar();
         }
 
-        return r;
+        return result;
     }
 
     /*
