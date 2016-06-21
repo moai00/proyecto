@@ -5,6 +5,7 @@ package vista;
 
 import dao.ProyectoJDBC;
 import java.util.ArrayList;
+import modelo.Resultados;
 import modelo.Ruta;
 
 /**
@@ -12,33 +13,22 @@ import modelo.Ruta;
  * @author MPort y SGamarra
  */
 public class ClassificacioPerRutes extends javax.swing.JDialog {
-       
-        private ProyectoJDBC proyectoJDBC;
-        private ArrayList<Ruta> rutas;
-        
-    public ArrayList<Ruta> getTodos() {
-        return rutas;
+
+    private ProyectoJDBC proyectoJDBC;
+    private ArrayList<Resultados> resultados;
+
+    public ArrayList<Resultados> getTodos() {
+        return resultados;
     }
 
-    public void setTodos(ArrayList<Ruta> todos) {
-        this.rutas = rutas;
+    public void setTodos(ArrayList<Resultados> todos) {
+        this.resultados = resultados;
     }
 
-        
-
-    public ProyectoJDBC getProyectoJDBC() {
-        return proyectoJDBC;
-    }
-
-    public void setProyectoJDBC(ProyectoJDBC proyectoJDBC) {
-        this.proyectoJDBC = proyectoJDBC;
-    }
-
-    
     /**
      * Creates new form ClassificacioPerRutes
      */
-    public ClassificacioPerRutes(java.awt.Frame parent, boolean modal) {
+    public ClassificacioPerRutes(java.awt.Frame parent, boolean modal, Ruta laRuta) {
         super(parent, modal);
         
         initComponents();
@@ -116,10 +106,9 @@ public class ClassificacioPerRutes extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // SALIR
-       dispose();
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -110,6 +110,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButton11.setText("Classificació per Ruta");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Resultats");
 
@@ -261,6 +266,13 @@ public class Main extends javax.swing.JFrame {
         listarResultados.setLocationRelativeTo(null);
         listarResultados.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // CLASSIFICACIO PER RUTA
+        EscullRuta escullRuta = new EscullRuta(this, true);
+        escullRuta.setLocationRelativeTo(null);
+        escullRuta.setVisible(true);
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -5,7 +5,10 @@ package vista;
 
 import dao.ProyectoJDBC;
 import exceptions.MyException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.ListaRuta;
 import modelo.Ruta;
 
 /**
@@ -13,9 +16,8 @@ import modelo.Ruta;
  * @author MPort y SGamarra
  */
 public class EscullRuta extends javax.swing.JDialog {
-        // selectedItem RUTA rutas
     
-    private ListaRutas listaRutas;
+    private ListaRuta listaRutas;
     private Ruta rutas;
     private ProyectoJDBC proyectoJDBC;
 
@@ -36,28 +38,29 @@ public class EscullRuta extends javax.swing.JDialog {
         this.rutas = rutas;
     }
 
-    public ListaRutas getListaRutas() {
+    public ListaRuta getListaRutas() {
         return listaRutas;
     }
 
-    public void setListaRutas(ListaRutas listaRutas) {
+    public void setListaRutas(ListaRuta listaRutas) {
         this.listaRutas = listaRutas;
     }
 
-    @Override
-    public String toString() {
-        String r = listaRutas;
-        return r; 
-    }
+   
 
         
     /**
      * Creates new form EscullRuta
      */
-    public EscullRuta(java.awt.Frame parent, boolean modal) throws MyException {
+    public EscullRuta(java.awt.Frame parent, boolean modal)  {
         super(parent, modal);
-        listaRutas = new ListadoRutas();
         proyectoJDBC = new ProyectoJDBC();
+        rutas = new Ruta();
+        try {
+            listaRutas = proyectoJDBC.selectRuta();
+        } catch (MyException ex) {
+            JOptionPane.showMessageDialog(this, ex.getLocalizedMessage());
+        }
         initComponents();
     }
 
@@ -69,6 +72,7 @@ public class EscullRuta extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
@@ -78,6 +82,12 @@ public class EscullRuta extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaRutas.lista}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
+        bindingGroup.addBinding(jComboBoxBinding);
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${rutas}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
 
         jButton1.setText("Sortir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +135,8 @@ public class EscullRuta extends javax.swing.JDialog {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,14 +147,9 @@ public class EscullRuta extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // ACEPTAR
-        try {
-            proyectoJDBC.selectRuta();
-            JOptionPane.showMessageDialog(this, "Ruta seleccionada");
-            dispose();
-        } catch (MyException ex) {
-            JOptionPane.showMessageDialog(this, "Ruta no seleccionada", 
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+        ClassificacioPerRutes classificacioPerRutes = new ClassificacioPerRutes(null, true, rutas);
+        classificacioPerRutes.setLocationRelativeTo(null);
+        classificacioPerRutes.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
@@ -152,5 +159,6 @@ public class EscullRuta extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
