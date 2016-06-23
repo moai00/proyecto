@@ -60,12 +60,19 @@ public class InsertarResultados extends javax.swing.JDialog {
          ruta = new ListaRuta();
         try {
             users = proyectoJDBC.selectUser();
+            // Asi forzamos a que este seleccionado el primero
+            // y evitamos el error en el jComboBox
+            if (!users.getLista().isEmpty()) {
+                result.setUser(users.getLista().get(0));
+            }
             ruta = proyectoJDBC.selectRuta();
+            if(!ruta.getLista().isEmpty()){
+                result.setRuta(ruta.getLista().get(0));
+            }
         } catch (MyException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             dispose();
         }
-        
         initComponents();
         
     
