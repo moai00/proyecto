@@ -19,6 +19,9 @@ public class Resultados {
     private int horas;
     private int minutos;
     private double velmedia;
+   
+
+    
 
     public Resultados() {
         ruta = new Ruta();
@@ -37,8 +40,10 @@ public class Resultados {
 
     @Override
     public String toString() {
-        return horas + ":" + minutos;
+        return "Resultados{" + "idresultados=" + idresultados + ", ruta=" + ruta + ", user=" + user + ", horas=" + horas + ", minutos=" + minutos + ", velmedia=" + velmedia + ", propertyChangeSupport=" + propertyChangeSupport + '}';
     }
+
+    
 
     public void setVelmedia(double velmedia) {
         double oldVelmedia = this.velmedia;

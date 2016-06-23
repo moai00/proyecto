@@ -137,10 +137,10 @@ public class ProyectoJDBC {
     //llistar RANKING
     public ListaResultados ranking(Ruta laRuta) throws MyException {
         ListaResultados result = new ListaResultados();
-        
+
         conectar();
         try {
-            String query = "SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta ='" + laRuta.getIdruta() +"' group by user.nif having max(velmedia) order by velmedia desc;";
+            String query = "SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta ='" + laRuta.getIdruta() + "' group by user.nif having max(velmedia) order by velmedia desc;";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
@@ -159,7 +159,7 @@ public class ProyectoJDBC {
                 result.altaResultados(res);
 
             }
-            
+
         } catch (SQLException ex) {
             throw new MyException("ERROR" + ex.getLocalizedMessage());
         } finally {
@@ -170,11 +170,9 @@ public class ProyectoJDBC {
     }
 
     /*
-        SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta = 1241   
-        group by user.nif having max(velmedia) order by velmedia desc;
+     SELECT * FROM proyecto.resultados join user join ruta on resultados.nif=user.nif where resultados.idruta = 1241   
+     group by user.nif having max(velmedia) order by velmedia desc;
      */
-
-
 //llistar resultats
     public ListaResultados llistarResultats() throws MyException {
         ListaResultados resultats = new ListaResultados();
@@ -276,6 +274,7 @@ public class ProyectoJDBC {
             ps.setInt(3, res.getHoras());
             ps.setInt(4, res.getMinutos());
             ps.setDouble(5, res.getVelmedia());
+           
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
@@ -377,7 +376,7 @@ public class ProyectoJDBC {
 
         String url = "jdbc:mysql://localhost:3306/proyecto";
         String user = "root";
-        String pass = "111111";
+        String pass = "jeveris";
         try {
             conexion = DriverManager.getConnection(url, user, pass);
         } catch (SQLException ex) {
