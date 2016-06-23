@@ -377,7 +377,7 @@ public class ProyectoJDBC {
 
         String url = "jdbc:mysql://localhost:3306/proyecto";
         String user = "root";
-        String pass = "111111";
+        String pass = "jeveris";
         try {
             conexion = DriverManager.getConnection(url, user, pass);
         } catch (SQLException ex) {
