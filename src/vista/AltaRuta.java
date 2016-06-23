@@ -13,7 +13,7 @@ import modelo.Ruta;
  * @author MPort y SGamarra
  */
 public class AltaRuta extends javax.swing.JDialog {
-    
+   // 
     private Ruta ruta;
 
     public Ruta getRuta() {
