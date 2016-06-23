@@ -68,12 +68,7 @@ public class InsertarResultados extends javax.swing.JDialog {
         
         initComponents();
         
-//    if (!users.isEmpty()) {
-//        result.setUser(users.get(0));
-//    }
-//    if (!ruta.()) {
-//        result.setRuta(ruta.get(0));
-//    }
+    
         
     }
 

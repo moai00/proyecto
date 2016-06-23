@@ -31,6 +31,15 @@ public class ListaResultados {
             lista.remove(r);
         }
 
+    @Override
+    public String toString() {
+        return "ListaResultados{" + "lista=" + lista + ", propertyChangeSupport=" + propertyChangeSupport + '}';
+    }
+        
+        
+        
+        
+
     public static final String PROP_LISTA = "lista";
 
     public ObservableList<Resultados> getLista() {

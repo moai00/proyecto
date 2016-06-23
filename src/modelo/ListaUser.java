@@ -30,6 +30,8 @@ public class ListaUser {
         public void bajaUser(User u){
             lista.remove(u);
         }
+        
+        
 
     public static final String PROP_LISTA = "lista";
 
