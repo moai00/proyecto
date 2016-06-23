@@ -30,6 +30,8 @@ public class ListaRuta {
         public void bajaRuta(Ruta r){
             lista.remove(r);
         }
+        
+        
 
     public static final String PROP_LISTA = "lista";
 
